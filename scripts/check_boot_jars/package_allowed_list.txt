@@ -300,3 +300,6 @@ org\.ifaa\.aidl.*
 ###################################################
 # Lineage HALs
 vendor\.lineage\..*
+
+# LMODroid adds
+com\.libremobileos.*
