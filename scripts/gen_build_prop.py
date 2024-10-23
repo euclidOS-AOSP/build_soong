@@ -45,7 +45,7 @@ def get_build_keys(product_config):
     return "test-keys"
   if default_cert.startswith("vendor/lineage-priv/"):
     return "release-keys"
-  return "dev-keys"
+  return "release-keys"
 
 def override_config(config):
   if "PRODUCT_BUILD_PROP_OVERRIDES" in config:

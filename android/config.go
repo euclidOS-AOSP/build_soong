@@ -1379,7 +1379,7 @@ func (c *config) BuildKeys() string {
 	if strings.HasPrefix(defaultCert, "vendor/lineage-priv/") {
 		return "release-keys"
 	}
-	return "dev-keys"
+	return "release-keys"
 }
 
 func (c *config) ApexKeyDir(ctx ModuleContext) SourcePath {
