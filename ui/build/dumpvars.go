@@ -155,6 +155,7 @@ var BannerVars = []string{
 	"PLATFORM_VERSION",
 	"EUCLID_VERSION",
         "EUCLID_BUILD_TYPE",
+	"EUCLID_PACKAGE_TYPE",
 	"PRODUCT_DEFAULT_DEV_CERTIFICATE",
 	"PRODUCT_SOURCE_ROOT_DIRS",
 	"TARGET_DEVICE",
@@ -197,6 +198,7 @@ func Banner(config Config, make_vars map[string]string) string {
     fmt.Fprintf(b, "%s = %s\n", "EUCLID_VERSION", make_vars["EUCLID_VERSION"])
     fmt.Fprintf(b, "%s = %s\n", "EUCLID_BUILD_TYPE", make_vars["EUCLID_BUILD_TYPE"])
     fmt.Fprintf(b, "%s = %s\n", "PLATFORM_VERSION", make_vars["PLATFORM_VERSION"])
+    fmt.Fprintf(b, "%s = %s\n", "EUCLID_PACKAGE_TYPE", make_vars["EUCLID_PACKAGE_TYPE"])
     fmt.Fprintf(b, "%s = %s\n", "TARGET_PRODUCT", make_vars["TARGET_PRODUCT"])
     fmt.Fprintf(b, "%s = %s\n", "TARGET_BUILD_VARIANT", make_vars["TARGET_BUILD_VARIANT"])
     fmt.Fprintf(b, "%s = %s\n", "TARGET_ARCH", make_vars["TARGET_ARCH"])
