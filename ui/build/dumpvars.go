@@ -155,6 +155,8 @@ var BannerVars = []string{
 	"PLATFORM_VERSION_CODENAME",
 	"PLATFORM_VERSION",
 	"EUCLID_VERSION",
+	"EUCLID_BUILD_TYPE",
+	"EUCLID_MAINTAINER",
 	"PRODUCT_SOURCE_ROOT_DIRS",
 	"TARGET_PRODUCT",
 	"TARGET_BUILD_VARIANT",
@@ -172,42 +174,39 @@ var BannerVars = []string{
 	"BUILD_ID",
 	"OUT_DIR",
 	"SOONG_SDK_SNAPSHOT_TARGET_BUILD_RELEASE",
+    "PRODUCT_DEFAULT_DEV_CERTIFICATE",
 }
 
 func Banner(config Config, make_vars map[string]string) string {
-	b := &bytes.Buffer{}
+    b := &bytes.Buffer{}
 
-	fmt.Fprintln(b, "============================================")
-	for _, name := range BannerVars {
-		if make_vars[name] != "" {
-			fmt.Fprintf(b, "%s=%s\n", name, make_vars[name])
-		}
-	}
+    fmt.Fprintln(b, "==================================================================================")
+    fmt.Fprintln(b, "                                                                                  ")
+    fmt.Fprintln(b, "  ███████╗██╗   ██╗ ██████╗██╗     ██╗██████╗      ██████╗ ███████╗ ")
+    fmt.Fprintln(b, "  ██╔════╝██║   ██║██╔════╝██║     ██║██╔══██╗    ██╔═══██╗██╔════╝ ")
+    fmt.Fprintln(b, "  █████╗  ██║   ██║██║     ██║     ██║██║  ██║    ██║   ██║███████╗ ")
+    fmt.Fprintln(b, "  ██╔══╝  ██║   ██║██║     ██║     ██║██║  ██║    ██║   ██║╚════██║ ")
+    fmt.Fprintln(b, "  ███████╗╚██████╔╝╚██████╗███████╗██║██████╔╝    ╚██████╔╝███████║ ")
+    fmt.Fprintln(b, "  ╚══════╝ ╚═════╝  ╚═════╝╚══════╝╚═╝╚═════╝      ╚═════╝ ╚══════╝ ")
+    fmt.Fprintln(b, "                                                                                  ")
+    fmt.Fprintln(b, "==================================================================================")
+    fmt.Fprintf(b, "%s = %s\n", "EUCLID_VERSION", make_vars["EUCLID_VERSION"])
+    fmt.Fprintf(b, "%s = %s\n", "EUCLID_BUILD_TYPE", make_vars["EUCLID_BUILD_TYPE"])
+    fmt.Fprintf(b, "%s = %s\n", "EUCLID_MAINTAINER", make_vars["EUCLID_MAINTAINER"])
+    fmt.Fprintf(b, "%s = %s\n", "PLATFORM_VERSION", make_vars["PLATFORM_VERSION"])
+    fmt.Fprintf(b, "%s = %s\n", "TARGET_PRODUCT", make_vars["TARGET_PRODUCT"])
+    fmt.Fprintf(b, "%s = %s\n", "TARGET_BUILD_VARIANT", make_vars["TARGET_BUILD_VARIANT"])
+    fmt.Fprintf(b, "%s = %s\n", "TARGET_ARCH", make_vars["TARGET_ARCH"])
+    fmt.Fprintf(b, "%s = %s\n", "TARGET_ARCH_VARIANT", make_vars["TARGET_ARCH_VARIANT"])
+    fmt.Fprintf(b, "%s = %s\n", "TARGET_CPU_VARIANT", make_vars["TARGET_CPU_VARIANT"])
+    fmt.Fprintf(b, "%s = %s\n", "TARGET_2ND_ARCH", make_vars["TARGET_2ND_ARCH"])
+    fmt.Fprintf(b, "%s = %s\n", "BUILD_ID", make_vars["BUILD_ID"])
+    fmt.Fprintf(b, "%s = %s\n", "PRODUCT_DEFAULT_DEV_CERTIFICATE", make_vars["PRODUCT_DEFAULT_DEV_CERTIFICATE"])
+    fmt.Fprintf(b, "%s = %s\n", "OUT_DIR", make_vars["OUT_DIR"])
+    fmt.Fprintf(b, "%s=%s\n", "PRODUCT_SOONG_NAMESPACES", make_vars["PRODUCT_SOONG_NAMESPACES"])
+    fmt.Fprintln(b, "===============================================================")
 
-	if use, _ := config.environ.Get("SOONG_USE_PARTIAL_COMPILE"); use == "true" {
-		if partialCompile, ok := config.environ.Get("SOONG_PARTIAL_COMPILE"); ok {
-			fmt.Fprintf(b, "SOONG_PARTIAL_COMPILE=%s\n", partialCompile)
-		}
-	}
-
-	// Only show USE_RBE and USE_REWRAPPER when the user has explicitly set SOONG_NINJA
-	if config.ninjaCommand != NINJA_DEFAULT {
-		fmt.Fprintf(b, "SOONG_NINJA=%s\n", config.ninjaCommand.String())
-		fmt.Fprintf(b, "USE_RBE=%t\n", config.UseRBE())
-		fmt.Fprintf(b, "USE_REWRAPPER=%t\n", config.UseRewrapper())
-	}
-
-	// Normally config.soongOnlyRequested already takes into account PRODUCT_SOONG_ONLY,
-	// except when doing `get_build_var report_config`, which is run during envsetup.
-	if config.skipKatiControlledByFlags {
-		fmt.Fprintf(b, "SOONG_ONLY=%t\n", config.soongOnlyRequested)
-	} else { // default for this product
-		fmt.Fprintf(b, "SOONG_ONLY=%t\n", make_vars["PRODUCT_SOONG_ONLY"] == "true")
-	}
-
-	fmt.Fprint(b, "============================================")
-
-	return b.String()
+    return b.String()
 }
 
 func runMakeProductConfig(ctx Context, config Config) {
